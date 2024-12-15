@@ -1,28 +1,9 @@
 import config
 import telebot
-import g4f
+import gpt_requests
 
 bot = telebot.TeleBot(config.bot_token, parse_mode=None)
 bot_messages = []
-
-def get_gpt_response(message):
-    try:
-        response = g4f.ChatCompletion.create(
-            model="gpt-4o-mini",
-            messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": message}
-            ]
-        )
-        if isinstance(response, dict) and 'choices' in response:
-            return response['choices'][0]['message']['content']
-        elif isinstance(response, str):
-            return response
-        else:
-            return "Неизвестный формат ответа от GPT-4."
-    except Exception as e:
-        return f"Извините, произошла ошибка: {str(e)}"
-
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -69,7 +50,7 @@ def clear_chat(message):
 
 @bot.message_handler(func=lambda message: True)
 def handle_message(message):
-    gpt_response = get_gpt_response(message.text)
+    gpt_response = gpt_requests.get_gpt_response(message.text)
 
     markup = telebot.types.InlineKeyboardMarkup()
     clear_button = telebot.types.InlineKeyboardButton("Очистить чат", callback_data='clear_chat')
