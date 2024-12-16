@@ -27,11 +27,8 @@ def callback_handler(call):
         bot.answer_callback_query(call.id, "Чат очищен")
     elif call.data == 'show_help':
         help_message = (
-            "Этот бот использует GPT-4 для общения.\n\n"
-            "Команды:\n"
-            "- Просто отправьте сообщение, чтобы получить ответ\n"
-            "- Кнопка 'Очистить чат' удаляет все сообщения\n"
-            "- Кнопка 'Помощь' показывает это сообщение"
+            "tg: @glamfuneral\n"
+            "github: https://github.com/artemkiruhin/Kirchat"
         )
         bot.answer_callback_query(call.id)
         bot.send_message(call.message.chat.id, help_message)
